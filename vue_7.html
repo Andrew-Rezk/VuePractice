@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	
+		<title>J1 Practice</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<style>
+			.formfield{margin-bottom:10px;}
+		</style>
+	</head>
+	<body>
+	<p>Basketball Game Problem. <a href="https://www.cemc.uwaterloo.ca/contests/computing/2019/stage%201/juniorEF.pdf">from the J1 problem hosted by the CCC.</a></p>
+	<div id="app">
+		<h1>Team Banana</h1>
+		<div class="formfield">
+			<label>3 pointer: <label> <input v-model="score_qty_small">
+		</div>
+		<div class="formfield">
+			<label>2 pointer: <label> <input v-model="score_qty_medium">
+		</div>
+		<div class="formfield">
+			<label>1 pointer: <label> <input v-model="score_qty_large">
+		</div>
+		<br>
+		<h1>Team Apples</h1>
+		<div class="formfield">
+			<label>3 pointer: <label> <input v-model="score_qty_small1">
+		</div>
+		<div class="formfield">
+			<label>2 pointer: <label> <input v-model="score_qty_medium2">
+		</div>
+		<div class="formfield">
+			<label>1 pointer: <label> <input v-model="score_qty_large3">
+		</div>
+		<br>
+		<div id="result">
+			<div><label>show Winner:</label><input type="checkbox" v-model="score_diagnostics"></div>
+			<div v-if="score_diagnostics">Team Banana: {{score_total1}}</div>
+			<div v-if="score_diagnostics">Team Apples: {{score_total2}}</div>
+			<div v-if="score_diagnostics">
+				<span v-if="team_ban">{{team_banana}} is The Winner!</span>
+				<span v-else-if="team_app">{{team_apples}} is The Winner</span>
+				<span v-else-if="tied_game">{{tied_game}}</span>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+	var app = new Vue({
+		el: '#app',
+		data:{
+			score_diagnostics:false,
+			team_banana:"Team Banana",
+			team_apples:"Team Apples",
+			tied_game: "It's a Tie!",
+			score_qty_small:0,
+			score_qty_medium:0,
+			score_qty_large:0,
+			score_value_small:3,
+			score_value_medium:2,
+			score_value_large:1,
+			score_qty_small1:0,
+			score_qty_medium2:0,
+			score_qty_large3:0,
+			score_value_small1:3,
+			score_value_medium2:2,
+			score_value_large3:1
+		},
+		computed:{
+			score_total1:function(){
+				return (this.score_qty_small * this.score_value_small) + 
+				(this.score_qty_medium * this.score_value_medium) + 
+				(this.score_qty_large * this.score_value_large);	
+			},
+			score_total2:function(){
+				return (this.score_qty_small1 * this.score_value_small1) + 
+				(this.score_qty_medium2 * this.score_value_medium2) + 
+				(this.score_qty_large3 * this.score_value_large3);	
+			},
+			team_ban:function(){
+				if (this.score_total1 > this.score_total2){
+				return this.team_banana;
+				} 
+			},
+			team_app:function(){
+				if (this.score_total1 < this.score_total2){
+				return this.team_apples;
+				} 
+			},
+			tied_game:function(){
+				if (this.score_total1 === this.score_total2){
+					return this.tied_game;
+				}
+			}
+		}
+	});
+	
+	</script>
+	<!--
+		v-model will allow you to quickly bind form elements to the data property.
+		Make sure to set a default value!
+		The Computed property can be used like data, except for values that are calculated from data properties.
+		In this example 'treat_total' is computed from data properties, and 'is_happy' is computed from 'treat_total'.
+		
+		ASYNCHRONOUS LEARNING EXERCISE : J1
+		- Find any J1 problem
+		- Imagine an interface that allows the user to enter data on the webpage
+		- Build using v-model and computed properties!
+	
+	-->
+	</body>
+</html>
